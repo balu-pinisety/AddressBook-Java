@@ -19,7 +19,7 @@ public class AddressBookMain {
 		boolean choice=true;
 		while (choice) {
 			System.out.println("\nChoose the option:\nPress '1' for Add\nPress '2' for Edit"
-					+ "\nPress '3' for Delete\nPress '0' for Exit");
+					+ "\nPress '3' for Delete\nPress '4' for Show\nPress '0' for Exit");
 			int option=scan.nextInt();
 			switch (option) {
 			case 0: choice=false;
@@ -30,6 +30,8 @@ public class AddressBookMain {
 			case 2: addressBook.editDetails();
 				break;
 			case 3: addressBook.deleteDetails();
+				break;
+			case 4: addressBook.showDetails();
 				break;
 			default: 
 				System.out.println("Please enter valid input");

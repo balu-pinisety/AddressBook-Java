@@ -128,4 +128,13 @@ public class AddressBookRunner {
 			System.out.println("Given name details were deleted from the list");
 		}
 	}
+	
+	/** To show existing details using the name of the person */
+	public void showDetails() {
+		int index = searchName();
+		if (index!=personList.size()) {
+			AddressBookPOJO person = personList.get(index);
+			System.out.println(person.toString());
+		}
+	}
 }
