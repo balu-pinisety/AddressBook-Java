@@ -2,16 +2,27 @@ package com.AddressBook;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddressBookRunner {
 	
 	private static Scanner scan = new Scanner(System.in);
-	List<AddressBookPOJO> personList = new ArrayList<AddressBookPOJO>();
+	ArrayList<AddressBookPOJO> personList = new ArrayList<AddressBookPOJO>();
+	Map<String,ArrayList<AddressBookPOJO>> addressBook = new HashMap<String, ArrayList<AddressBookPOJO>>();
 	
 	/** Asks the user for details of the person and storing in person List */
 	public void addDetails() {
 		AddressBookPOJO person = new AddressBookPOJO();
+		
+		System.out.print("Enter Existing Book name or New Book Name to add contact : ");
+		String bookName  = scan.next();
+		
+		if(addressBook.containsKey(bookName)) {
+			System.out.println("Contact will be added to existing '"+bookName+"' Book");
+		} else {
+			System.out.println("New Address Book Created with the Name '"+bookName+"'");
+		}
 		
 		System.out.print("\nEnter First name : ");
 		person.setFirstName(scan.next());
@@ -39,7 +50,7 @@ public class AddressBookRunner {
 		
 		// Adding the details into list
 		personList.add(person);
-		
+		addressBook.put(bookName,personList);
 		System.out.println("\nGiven Details are added into the Book");
 		
 	}
