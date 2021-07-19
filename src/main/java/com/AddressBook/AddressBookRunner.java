@@ -119,4 +119,13 @@ public class AddressBookRunner {
 			System.out.println("After Updating:"+details.toString());
 		}
 	}
+	
+	/** Asks the user to delete existing details using the name of the person */
+	public void deleteDetails() {
+		int index = searchName();
+		if (index!=personList.size()) {
+			personList.remove(index);
+			System.out.println("Given name details were deleted from the list");
+		}
+	}
 }
