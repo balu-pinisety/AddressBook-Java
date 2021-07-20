@@ -15,7 +15,7 @@ public class AddressBookRunner {
 	public void addDetails() {
 		AddressBookPOJO person = new AddressBookPOJO();
 		
-		System.out.print("Enter Existing Book name or New Book Name to add contact : ");
+		System.out.print("\nEnter Existing Book name or New Book Name to add contact : ");
 		String bookName  = scan.next();
 		
 		if(addressBook.containsKey(bookName)) {
@@ -162,15 +162,36 @@ public class AddressBookRunner {
 	}
 	
 	/** To show list of Persons Across the city or State */
-	public void contactList() {
-        System.out.print("Enter Name of City or State to get Contact List : ");
+	public void contactBycity() {
+        System.out.println("Enter Name of City or State to get Contact List : ");
         String nameCityState = scan.next();
-        System.out.println("\nContact list of persons across '"+nameCityState+"'+ is");
-        for (int i = 0; i < personList.size(); i++) {
-        	AddressBookPOJO details = personList.get(i);
-            if (details.getCity().equals(nameCityState) || details.getState().equals(nameCityState)) {
-                System.out.println(details.getFirstName()+" "+details.getLastName());
-            }
+        try {
+        	System.out.print("\nContact list of persons across '"+nameCityState+"' is");
+        	int j=1;
+        	for (int i = 0; i < personList.size(); i++) {
+        		AddressBookPOJO details = personList.get(i);
+        		if (details.getCity().equals(nameCityState) || details.getState().equals(nameCityState)) {
+        			System.out.println(j+++") "+details.getFirstName()+" "+details.getLastName());
+        		} else if (i==personList.size()-1) {
+        			System.out.print(" Empty\n");
+        		}
+        	}
+        }catch(Exception e) {
+        	System.out.println("Exception occured while getting Contact List");
         }
     }
+	
+	/** To display the names of persons that are added */
+	public void displayContacts() {
+		try {
+			System.out.println("\nContacts in AddessBook:");
+			for (int i = 0; i < personList.size(); i++) {
+				String first=personList.get(i).getFirstName();
+				String last=personList.get(i).getLastName();
+				System.out.println((i+1)+") "+first+" "+last);
+			}
+		}catch(Exception e) {
+        	System.out.println("Exception occured while getting Contact List");
+        }
+	}
 }
