@@ -4,6 +4,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class AddressBookRunner {
 	
@@ -205,4 +207,13 @@ public class AddressBookRunner {
 		});
 		System.out.println("Number of contact persons in "+nameCityState+" is : "+wrapper.count);
 	}
+	
+	/** To sort the entries in the address book alphabetically by Person's name */
+	public void sortByName() {
+		addressBook.keySet().forEach((String name) -> {
+            addressBook.get(name).stream().sorted(Comparator.comparing(AddressBookPOJO::getFirstName))
+                    .collect(Collectors.toList()).forEach(person -> System.out.println(person.toString()));
+        });
+	}
+	
 }
