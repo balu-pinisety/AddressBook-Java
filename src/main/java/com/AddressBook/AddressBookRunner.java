@@ -160,4 +160,17 @@ public class AddressBookRunner {
 			System.out.println(person.toString());
 		}
 	}
+	
+	/** To show list of Persons Across the city or State */
+	public void contactList() {
+        System.out.print("Enter Name of City or State to get Contact List : ");
+        String nameCityState = scan.next();
+        System.out.println("\nContact list of persons across '"+nameCityState+"'+ is");
+        for (int i = 0; i < personList.size(); i++) {
+        	AddressBookPOJO details = personList.get(i);
+            if (details.getCity().equals(nameCityState) || details.getState().equals(nameCityState)) {
+                System.out.println(details.getFirstName()+" "+details.getLastName());
+            }
+        }
+    }
 }
