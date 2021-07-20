@@ -25,10 +25,22 @@ public class AddressBookRunner {
 		}
 		
 		System.out.print("\nEnter First name : ");
-		person.setFirstName(scan.next());
+		String firstName=scan.next();
+		person.setFirstName(firstName);
 		
 		System.out.print("Enter Last name : ");
-		person.setLastName(scan.next());
+		String lastName=scan.next();
+		person.setLastName(lastName);
+		
+		// Ensuring there is no Duplicate Entry of the same Person in a Address Book
+		String userName = firstName+" "+lastName;
+		for (int k = 0; k < personList.size(); k++) {
+			String contactName = personList.get(k).getFirstName()+" "+personList.get(k).getLastName(); 
+			if (userName.equals(contactName)) {
+				System.out.println("Can not allow Duplicate Contact");
+				addDetails();
+			}
+		}
 		
 		System.out.print("Enter Address : ");
 		person.setAddress(scan.next());
