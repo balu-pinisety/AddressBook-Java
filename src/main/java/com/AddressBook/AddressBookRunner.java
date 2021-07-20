@@ -8,13 +8,14 @@ import java.util.Map;
 public class AddressBookRunner {
 	
 	private static Scanner scan = new Scanner(System.in);
-	ArrayList<AddressBookPOJO> personList = new ArrayList<AddressBookPOJO>();
+	ArrayList<AddressBookPOJO> personList = new ArrayList<>();
 	Map<String,ArrayList<AddressBookPOJO>> addressBook = new HashMap<String, ArrayList<AddressBookPOJO>>();
 	
 	/** Asks the user for details of the person and storing in person List */
 	public void addDetails() {
 		AddressBookPOJO person = new AddressBookPOJO();
-		
+		var wrapper = new Object() {boolean flag=true;};
+		//boolean flag = true;
 		System.out.print("\nEnter Existing Book name or New Book Name to add contact : ");
 		String bookName  = scan.next();
 		
@@ -32,38 +33,45 @@ public class AddressBookRunner {
 		String lastName=scan.next();
 		person.setLastName(lastName);
 		
+		
 		// Ensuring there is no Duplicate Entry of the same Person in a Address Book
-		String userName = firstName+" "+lastName;
-		for (int k = 0; k < personList.size(); k++) {
-			String contactName = personList.get(k).getFirstName()+" "+personList.get(k).getLastName(); 
-			if (userName.equals(contactName)) {
+		try {
+			personList.stream().filter(contactList -> contactList.getFirstName().equals(firstName)&&contactList.getLastName().equals(lastName)).forEach(contactList -> {
 				System.out.println("Can not allow Duplicate Contact");
 				addDetails();
-			}
+				wrapper.flag = false;
+			});
+		} catch(Exception e) {
+        	System.out.println();
+        }
+		
+		while(wrapper.flag) {
+		
+			System.out.print("Enter Address : ");
+			person.setAddress(scan.next());
+			
+			System.out.print("Enter City name : ");
+			person.setCity(scan.next());
+			
+			System.out.print("Enter State name : ");
+			person.setState(scan.next());
+			
+			System.out.print("Enter ZIP Code : ");
+			person.setZipCode(scan.next());
+			
+			System.out.print("Enter Phone Number : ");
+			person.setPhoneNumber(scan.next());
+			
+			System.out.print("Enter E-Mail ID : ");
+			person.setEmail(scan.next());
+			
+			// Adding the details into list
+			personList.add(person);
+			addressBook.put(bookName,personList);
+			System.out.println("\nGiven Details are added into the Book");
+			
+			wrapper.flag = false;
 		}
-		
-		System.out.print("Enter Address : ");
-		person.setAddress(scan.next());
-		
-		System.out.print("Enter City name : ");
-		person.setCity(scan.next());
-		
-		System.out.print("Enter State name : ");
-		person.setState(scan.next());
-		
-		System.out.print("Enter ZIP Code : ");
-		person.setZipCode(scan.next());
-		
-		System.out.print("Enter Phone Number : ");
-		person.setPhoneNumber(scan.next());
-		
-		System.out.print("Enter E-Mail ID : ");
-		person.setEmail(scan.next());
-		
-		// Adding the details into list
-		personList.add(person);
-		addressBook.put(bookName,personList);
-		System.out.println("\nGiven Details are added into the Book");
 		
 	}
 	
@@ -167,15 +175,9 @@ public class AddressBookRunner {
         String nameCityState = scan.next();
         try {
         	System.out.print("\nContact list of persons across '"+nameCityState+"' is");
-        	int j=1;
-        	for (int i = 0; i < personList.size(); i++) {
-        		AddressBookPOJO details = personList.get(i);
-        		if (details.getCity().equals(nameCityState) || details.getState().equals(nameCityState)) {
-        			System.out.println(j+++") "+details.getFirstName()+" "+details.getLastName());
-        		} else if (i==personList.size()-1) {
-        			System.out.print(" Empty\n");
-        		}
-        	}
+        	personList.stream().filter(contactList -> contactList.getCity().equals(nameCityState)||contactList.getState().equals(nameCityState)).forEach(contactList -> {
+        		System.out.println(contactList.getFirstName()+" "+contactList.getLastName());
+        	});
         }catch(Exception e) {
         	System.out.println("Exception occured while getting Contact List");
         }
@@ -185,13 +187,22 @@ public class AddressBookRunner {
 	public void displayContacts() {
 		try {
 			System.out.println("\nContacts in AddessBook:");
-			for (int i = 0; i < personList.size(); i++) {
-				String first=personList.get(i).getFirstName();
-				String last=personList.get(i).getLastName();
-				System.out.println((i+1)+") "+first+" "+last);
-			}
+			personList.stream().forEach(contactList -> {
+				System.out.println(contactList.getFirstName()+" "+contactList.getLastName());
+			});
 		}catch(Exception e) {
         	System.out.println("Exception occured while getting Contact List");
         }
+	}
+	
+	/** To get number of contact persons in Book */
+	public void contactsCount() {
+		System.out.println("Enter Name of City or State to get count of Contacts across city or state");
+		String nameCityState = scan.next();
+		var wrapper = new Object() {int count=0;};
+		personList.stream().filter(contactList -> contactList.getCity().equals(nameCityState)||contactList.getState().equals(nameCityState)).forEach(contactList -> {
+			wrapper.count++;
+		});
+		System.out.println("Number of contact persons in "+nameCityState+" is : "+wrapper.count);
 	}
 }
